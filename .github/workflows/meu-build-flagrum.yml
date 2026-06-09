@@ -1,0 +1,28 @@
+name: Build Customizado Flagrum
+on:
+  workflow_dispatch: # Permite rodar manualmente no botão
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Baixar o código
+      uses: actions/checkout@v4
+
+    - name: Configurar .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Forçar Steamworks (Garantia)
+      run: dotnet add src\Flagrum\Flagrum.csproj package Steamworks.NET -v 15.0.1
+
+    - name: Compilar o Executável
+      run: dotnet publish src\Flagrum\Flagrum.csproj -c Release -o out_flagrum /p:TreatWarningsAsErrors=false /p:NoWarn="CS9258;CS1061"
+
+    - name: Salvar o Arquivo Final
+      uses: actions/upload-artifact@v4
+      with:
+        name: Flagrum-Modificado
+        path: out_flagrum
