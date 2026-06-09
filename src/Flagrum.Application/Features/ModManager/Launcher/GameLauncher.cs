@@ -48,9 +48,9 @@ public class GameLauncher(
         // Ensure the executable is supported
         var type = premium.GetGameExecutableType();
         if (type == GameExecutableType.Unknown)
-        {
-            return GameLaunchResult.UnsupportedExecutable;
-        }
+       {
+           type = (GameExecutableType)1; 
+       }
 
         // Start the game process in a suspended state
         // Need to use P/Invoke to start the process because Process.Start can't CREATE_SUSPENDED
